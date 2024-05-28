@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home | SocialFlux</title>
+  <%- include('partials/head'); -%>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+</head>
+<body class="bg-dark">
+  <%- include('partials/navbar'); -%>
+  <style>
+    .content-title {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  </style>
+  <div class="container">
+    <div class="container mt-1">
+      <div class="row">
+        <%- include('partials/leftsidebar'); -%>
+        <div class="col-md-6">
+          <div class="rounded-2 bg-dark1 bdr">
+            <div class="shadowbg-body-tertiary content-title text-white mb-2 sticky-top" style="border-top-left-radius: 4px; border-top-right-radius: 4px; position: sticky; top: 0; padding: 9px; width: 100%; left: 0; right: 0; z-index: 1;">
+              <h5 style="margin: 0;" class="mx-3"><i class="fa-solid fa-house"></i> Home</h5>
+            </div>
+            <div class="p-4 content"  style="max-height: 82vh; overflow-y: auto;">
+            
+              
+   
+                  <div class="card mb-4" style="background-color: transparent; border-color: #2c30446b; border-width: 2px;">
+                    <div class="card-body">
+                      <div class="user-info d-flex align-items-center" style="background-color: transparent;">
+                        <img class="user-image rounded-circle" src="data:image/png;base64,<%= tweet.user.pfp %>" alt="User Image" style="width: 50px; height: 50px;">
+                        <div class="user-names mx-2">
+                          <a class="card-text text-white" href="p/<%= tweet.user.username %>" style="font-size: 17px; text-decoration: none;"><% if (user.pfp) { %><%= tweet.user.displayName %><% } else { %><%- tweet.user.username.charAt(0).toUpperCase() + tweet.user.username.slice(1) %> <% } %></a>
+                          <p class="card-text text-muted mb-0" style="font-size: 14px;">@<%= tweet.user.username %></p>
+                        </div>
+                      </div>
+                      <p class="card-text mx-4 mt-3">
+                        <% function replaceUrlsWithLinks(content) {
+                          const urlRegex = /(https?:\/\/[^\s]+)/g;
+                          const replacedContent = content.replace(urlRegex, '<a href="$&" target="_blank">$&</a>');
+                          return replacedContent;
+                        } %>
+                      
+                        <% function sanitizeContent(content) {
+                          const sanitizedContent = content.replace(/<(?!a\b)[^>]*>/gi, (match) => {
+                            // Remove class attribute
+                            const withoutClass = match.replace(/class="[^"]*"/gi, '');
+                            // Remove any other attributes except href
+                            const withoutAttributes = withoutClass.replace(/(?<=<a\s.*?)\s+\w+(?![^<]*>)/gi, '');
+                            return withoutAttributes;
+                          });
+                          return sanitizedContent;
+                        } %>
+                      
+                        <% const sanitizedTweetContent = sanitizeContent(replaceUrlsWithLinks(tweet && tweet.content || '')) %>
+                      
+                        <% if (sanitizedTweetContent.trim()) { %>
+                          <%- sanitizedTweetContent %>
+                        <% } else { %>
+                         👋 Hello!
+                        <% } %>
+                      </p>
+                      <% if (tweet.image) { %>
+                        <div class="image-overlay mt-1" style="cursor: pointer;">
+                          <img class="rounded image" alt="Image" style="width: 443px; height: 200px; overflow: hidden; border-radius: 20px; object-fit: contain; object-position: center;" src="/images/<%= tweet.image.filename %>" data-bs-toggle="modal" data-bs-target="#<%= tweet.user.username %><%= tweet.image.filename %>">
+                          <div class="overlay mt-4 mx-2" onclick="toggleImageBlur(this)">
+                            <i class="fa-solid fa-eye mx-2 mt-2"></i>
+                          </div>
+                        </div>
+                        <div class="modal fade" id="<%= tweet.user.username %><%= tweet.image.filename %>" tabindex="-1" aria-labelledby="<%= tweet.user.username %><%= tweet.image.filename %>" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                              <img class="img-fluid" style="max-width: 100%; max-height: 600px; object-fit: contain;" src="/images/<%= tweet.image.filename %>" alt="Image">
+                            </div>
+                          </div>
+                        </div>
+                      <% } %>
+                      <div class="card-footer">
+                        <% if (tweet.timestamp) { %>
+                          <p class="card-text"><small class="text-muted">Sent at <%= tweet.timestamp.toLocaleString() %></small></p>
+                        <% } %>
+                        <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3">
+                          <div class="col">
+                           
+                          </div>
+                          <div class="col">
+                            <% if (tweet.user.username === authusername) { %>
+                              <form action="/post/delete/<%= tweet._id %>?_method=DELETE" method="POST">
+                                <button type="submit" class="btn bg-dark2 border-0"><i class="fa-solid fa-trash"></i></button>
+                              </form>
+                            <% } %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+              <!-- RIGHT HERE SSSSSSSSSSSSSSSSS-->
+              <% if (replies.length > 0) { %>
+                <% replies.forEach(reply => { %>
+                  <div class="card mb-4" style="background-color: transparent; border-color: #2c30446b; border-width: 2px;">
+                    <div class="card-body">
+                      <div class="user-info d-flex align-items-center" style="background-color: transparent;">
+                        <img class="user-image rounded-circle" src="data:image/png;base64,<%= reply.user.pfp %>" alt="User Image" style="width: 50px; height: 50px;">
+                        <div class="user-names mx-2">
+                          <a class="card-text text-white" href="p/<%= reply.user.username %>" style="font-size: 17px; text-decoration: none;"><% if (user.pfp) { %><%= reply.user.displayName %><% } else { %><%- reply.user.username.charAt(0).toUpperCase() + reply.user.username.slice(1) %> <% } %></a>
+                          <p class="card-text text-muted mb-0" style="font-size: 14px;">@<%= reply.user.username %></p>
+                        </div>
+                      </div>
+                      <p class="card-text mx-4 mt-3">
+                        <% function replaceUrlsWithLinks(content) {
+                          const urlRegex = /(https?:\/\/[^\s]+)/g;
+                          const replacedContent = content.replace(urlRegex, '<a href="$&" target="_blank">$&</a>');
+                          return replacedContent;
+                        } %>
+                      
+                        <% function sanitizeContent(content) {
+                          const sanitizedContent = content.replace(/<(?!a\b)[^>]*>/gi, (match) => {
+                            // Remove class attribute
+                            const withoutClass = match.replace(/class="[^"]*"/gi, '');
+                            // Remove any other attributes except href
+                            const withoutAttributes = withoutClass.replace(/(?<=<a\s.*?)\s+\w+(?![^<]*>)/gi, '');
+                            return withoutAttributes;
+                          });
+                          return sanitizedContent;
+                        } %>
+                      
+                        <% const sanitizedReplyContent = sanitizeContent(replaceUrlsWithLinks(reply && reply.content || '')) %>
+                      
+                        <% if (sanitizedReplyContent.trim()) { %>
+                          <%- sanitizedReplyContent %>
+                        <% } else { %>
+                         👋 Hello!
+                        <% } %>
+                      </p><%= reply.user.username %>
+                      <% if (reply.image) { %>
+                        <div class="image-overlay mt-1" style="cursor: pointer;">
+                          <img class="rounded image" alt="Image" style="width: 443px; height: 200px; overflow: hidden; border-radius: 20px; object-fit: contain; object-position: center;" src="/images/<%= reply.image.filename %>" data-bs-toggle="modal" data-bs-target="#<%= reply.user.username %><%= reply.image.filename %>">
+                          <div class="overlay mt-4 mx-2" onclick="toggleImageBlur(this)">
+                            <i class="fa-solid fa-eye mx-2 mt-2"></i>
+                          </div>
+                        </div>
+                        <div class="modal fade" id="<%= reply.user.username %><%= reply.image.filename %>" tabindex="-1" aria-labelledby="<%= reply.user.username %><%= reply.image.filename %>" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                              <img class="img-fluid" style="max-width: 100%; max-height: 600px; object-fit: contain;" src="/images/<%= reply.image.filename %>" alt="Image">
+                            </div>
+                          </div>
+                        </div>
+                      <% } %>
+                      <div class="card-footer">
+                        <% if (reply.timestamp) { %>
+                          <p class="card-text"><small class="text-muted">Sent at <%= reply.timestamp.toLocaleString() %></small></p>
+                        <% } %>
+                        <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3">
+                          <div class="col">
+                           
+                          </div>
+                          <div class="col">
+                            <% if (reply.user.username === authusername) { %>
+                              <form action="/post/delete/<%= reply._id %>?_method=DELETE" method="POST">
+                                <button type="submit" class="btn bg-dark2 border-0"><i class="fa-solid fa-trash"></i></button>
+                              </form>
+                            <% } %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+              <% } else { %>
+                <div class="d-flex justify-content-center">
+                    <div class="rounded-3 p-4">
+                        <center>
+                      <i class="mb-3 fa-solid fa-face-laugh-beam text-center mt-3" style="text-align: left; font-size: 90px;"></i>
+                      <h2 style="opacity: 20px;">Look your all caught up!</h2>
+                      <p class="text-muted">try finding other users or see what's happening <a href="#">here.</a></p>
+                    </center>
+                      </div>
+                </div>
+              <% } %>
+            </div>
+            <% for (let reply of replies) { %>
+                <div class="reply">
+                  <div class="user-info">
+                    <img class="profile-picture" src="<%= reply.user.pfp %>" alt="<%= reply.user.displayName %>">
+                    <div class="user-details">
+                      <span class="display-name"><%= reply.user.displayName %></span>
+                      <span class="username">@<%= reply.user.username %></span>
+                    </div>
+                  </div>
+                  <div class="reply-content">
+                    <p><%= reply.content %></p>
+                  </div>
+                  <!-- Render nested replies recursively -->
+                  <% if (reply.replies && reply.replies.length > 0) { %>
+                    <div class="nested-replies">
+                      <% include('partials/reply', { replies: reply.replies }) %>
+                    </div>
+                  <% } %>
+                </div>
+              <% } %>
+              
+          </div>
+        </div>
+        <%- include('partials/rightsidebar'); -%>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleImageBlur(element) {
+      var image = element.parentNode.querySelector('.image');
+      var icon = element.querySelector('i');
+      image.classList.toggle('blurred');
+
+      if (image.classList.contains('blurred')) {
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+  </script>
+
+  <style>
+    .blurred {
+      filter: blur(5px);
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+</body>
+</html>

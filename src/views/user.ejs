@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= user.displayName ? '' + user.displayName + '' : 'SocialFlux' %> | @<%= user.username %></title>
+  <%- include('partials/head'); -%>
+</head>
+<body class="bg-dark">
+  <%- include('partials/navbar'); -%>
+  <div class="container">
+    <div class="container mt-1">
+      <div class="row">
+        <%- include('partials/leftsidebar'); -%>
+        <div class="col-md-6">
+          <div class="rounded-2 bg-dark1 bdr">
+            <div class="shadow bg-body-tertiary content-title text-white sticky-top" style="border-top-left-radius: 4px; border-top-right-radius: 4px; position: sticky; top: 0; padding: 9px; width: 100%; left: 0; right: 0; z-index: 1;">
+              <h5 style="margin: 0;" class="mx-3"><a class="text-white" href="javascript:history.back()"><i class="fa-solid fa-arrow-left"></i></a> @<%= user.username %> | <% if (user.pfp) { %><%= user.displayName %><% } else { %><%- user.username.charAt(0).toUpperCase() + user.username.slice(1) %> <% } %></h5>
+            </div>
+            <div class="content" style="max-height: 82vh; overflow-y: auto;"> 
+              <% if (user.banner) { %>
+                <div class="col-md-12 banner" style="display: flex; align-items: center; justify-content: center; background-image: url('data:image/png;base64,<%= user.banner ? user.banner : 'https://mediashare.ink/file/1683510439225.png' %>');   background-size: cover; height: 150px;"></div>
+
+            <% } else { %>
+              <div class="col-md-12 banner" style="background-color: #30344d; background-size: cover; height: 200px;"></div>
+              <% } %>
+            <div class="container px-4 text-center">
+              <div class="row">
+                <div class="col">
+                 <div class=""><% if (user.pfp) { %>
+                  <img src="data:image/png;base64,<%= user.pfp %>" style="background-color: #30344d;" alt="{{ERROR LOADING}}" onerror="this.onerror=null; this.src='https://discordinflux.xyz/assets/brands/image_k7x1vs.png'; this.style.border='none';" class="avatar rounded-4 mx-auto d-block c3" />
+                  <% } else { %>
+                  <div style="background-color: #30344d; color: white;" alt="{{ERROR LOADING}}" onerror="this.onerror=null; this.src='https://discordinflux.xyz/assets/brands/image_k7x1vs.png'; this.style.border='none';" class="text-center avatar rounded-2 mx-auto d-block">
+                    <div style="height: 100px;">
+                      <h2 class="mt-4"><%= user.username.charAt(0).toUpperCase() %></h2>
+                    </div>
+                  </div>
+                  <% } %>
+                  <div class="col"><div><span style="font-size: 20px;"> <% if (user.displayName) { %><%= user.displayName %><% } else { %><%- user.username.charAt(0).toUpperCase() + user.username.slice(1) %> <% } %>
+                  </span>
+                </div>
+                <div>
+                  <span class="text-muted">
+                    @<%= user.username %></span>
+                    <% if (!user.bio || user.bio.trim() === '') { %>
+                      <p>No bio available.</p>
+                    <% } else { %>
+                      <p class="mt-2" style="font-size: 14px;"><%= user.bio %></p>
+                    <% } %>
+                    </div>
+                </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="p-3"> 
+                    
+                   <!-- <a class="btn bg-dark2 border-0 mx-2 text-white">Block</a>-->
+                   <% if (user.username === authusername) { %>
+                    <div class="btn border-0 mr-2 dropstart">
+                      <button class="btn bg-transparent border-0 bg-dark2" data-bs-toggle="modal" data-bs-target="#settingsModal">Edit Profile</button>
+                    </div>
+                    <% } %>
+                  <% if (currentUser && currentUser._id.toString() !== user._id.toString()) { %>
+                  <div class="btn-group mr-2 dropstart" role="group" aria-label="First group">
+                    <button class="btn bg-transparent border-0 ellipsis" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    <ul class="dropdown-menu mb-2 animate slideIn text-white" style="background: #30344d;">
+                      <li><a class="dropdown-item links" href="#">Action</a></li>
+                <li><a class="dropdown-item links" href="#">Another action</a></li>
+                <li><a class="dropdown-item links" href="#" data-bs-toggle="modal" data-bs-target="#reportuserflag"><i class="fa-solid fa-flag"></i> Report</a></li>
+                    </ul>
+                  </div>
+                  <% } %>
+                  <div class="btn-group mr-2 mx-1" role="group" aria-label="Second group">
+                    <% if (currentUser && currentUser._id.toString() !== user._id.toString()) { %>
+                      <% if (currentUser.following.includes(user._id.toString())) { %>
+                        <form action="/unfollow/<%= user._id %>" method="POST">
+                          <button type="submit" class="btn bg-dark2 border-0">unfollow</button>
+                        </form>
+                      <% } else { %>
+                        <form action="/follow/<%= user._id %>" method="POST">
+                          <button type="submit" class="btn bg-dark2 border-0">Follow</button>
+                        </form>
+                      <% } %>
+                    <% } %>
+                  </div>
+                    <div class="mt-2">
+                      <a class="mx-2" style="text-decoration: none; color: white;">0 Followers</a><a class="mx-2" style="text-decoration: none; color: white;">0 Following</a>                  
+                    </div>
+                   
+                  </div>
+                  <p><strong class="strong">Joined: </strong><%= user.dateJoined.toDateString() %></p>
+                </div>
+                <hr>
+               <div class="mb-2 row row-cols-2 row-cols-lg-3">
+                <div class="col">
+                  <a class="btn border-0 psel actin" id="showTweetsButton" onclick="showPosts()">Posts</a>
+                </div>
+                <div class="col">
+                  <a class="btn border-0 psel actin" id="showImagesButton" onclick="showImages()">Media</a>
+                </div>
+                <div class="col">
+                  <a class="btn border-0 psel actin" id="likeImagesButton" onclick="showLikes()">Likes</a>
+                </div>
+              </div>
+              <hr>
+              </div>
+              <hr>
+            </div>
+            <div class="p-4">
+              <div id="imagesContainer" style="display: none;">
+                <% if (tweets.length > 0) { %>
+                  <% tweets.forEach(function(tweet) { %>
+                    <% if (tweet.image) { %>
+                      <div class="card mb-4" style="background-color: transparent; border-color: #2c30446b; border-width: 2px;">
+                        <div class="card-body">
+                          <div class="user-info d-flex align-items-center" style="background-color: transparent;">
+                            <img class="user-image rounded-circle" src="data:image/png;base64,<%= user.pfp %>" alt="User Image" style="width: 50px; height: 50px;">
+                            <div class="user-names mx-2">
+                              <a class="card-text text-white" href="../p/<%= tweet.user.username %>" style="font-size: 17px; text-decoration: none;">
+                                <% if (user.displayName) { %><%= tweet.user.displayName %><% } else { %><%- tweet.user.username.charAt(0).toUpperCase() + tweet.user.username.slice(1) %> <% } %>
+                              </a>
+                              <p class="card-text text-muted mb-0" style="font-size: 14px;">@<%= tweet.user.username %></p>
+                            </div>
+                          </div>
+                          <p class="card-text mx-4 mt-3">
+                            <%- sanitizeContent(replaceUrlsWithLinks(tweet.content)) %>
+                          </p>
+                          <div class="image-overlay mt-1" style="cursor: pointer;">
+                            <img class="rounded image" alt="Image" style="width: 443px; height: 200px; overflow: hidden; border-radius: 20px; object-fit: contain; object-position: center;" src="/images/<%= tweet.image.filename %>" data-bs-toggle="modal" data-bs-target="#<%= tweet.user.username %><%= tweet.image.filename %>">
+                            <div class="overlay mt-4 mx-2" onclick="toggleImageBlur(this)">
+                              <i class="fa-solid fa-eye mx-2 mt-2"></i>
+                            </div>
+                          </div>
+                          <div class="modal fade" id="<%= tweet.user.username %><%= tweet.image.filename %>" tabindex="-1" aria-labelledby="<%= tweet.user.username %><%= tweet.image.filename %>" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                              <div class="modal-content">
+                                <img class="img-fluid" style="max-width: 100%; max-height: 600px; object-fit: contain;" src="/images/<%= tweet.image.filename %>" alt="Image">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer">
+                            <% if (tweet.timestamp) { %>
+                              <p class="card-text"><small class="text-muted">Sent at <%= tweet.timestamp.toLocaleString() %></small></p>
+                            <% } %>
+                            <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3">
+                              <div class="col">
+                                <% if (likedTweets.some(liked => liked._id.equals(tweet._id))) { %>
+                                  <form method="POST" action="/tweets/<%= tweet._id %>/unlike">
+                                    <button class="card-link btn border-0 bg-dark2" type="submit"><i class="fa-solid fa-heart"></i> <%= tweet.likes.length %></button>
+                                  </form>
+                                <% } else { %>
+                                  <form method="POST" action="/tweets/<%= tweet._id %>/like">
+                                    <button class="card-link btn border-0 bg-dark2" type="submit"><i class="far fa-heart"></i> <%= tweet.likes.length %></button>
+                                  </form>
+                                <% } %>
+                              </div>
+                              <div class="col">
+                                <% if (tweet.user.username === authusername) { %>
+                                  <form action="/post/delete/<%= tweet._id %>?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn bg-dark2 border-0"><i class="fa-solid fa-trash"></i></button>
+                                  </form>
+                                <% } %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% } %>
+                  <% }); %>
+                <% } else { %>
+                  <p>No tweets found.</p>
+                <% } %>
+                
+              </div>
+              <div id="postsContainer" style=""><% if (tweets.length > 0) { %>
+              <% tweets.forEach(function(tweet) { %>
+                <div class="card mb-4" style="background-color: transparent; border-color: #2c30446b; border-width: 2px;">
+                  <div class="card-body">
+                    <div class="user-info d-flex align-items-center" style="background-color: transparent;">
+                      <img class="user-image rounded-circle" src="data:image/png;base64,<%= user.pfp %>" alt="User Image" style="width: 50px; height: 50px;">
+                      <div class="user-names mx-2">
+                        <a class="card-text text-white" href="../p/<%= tweet.user.username %>" style="font-size: 17px; text-decoration: none;">
+                          <% if (user.displayName) { %><%= tweet.user.displayName %><% } else { %><%- tweet.user.username.charAt(0).toUpperCase() + tweet.user.username.slice(1) %> <% } %>
+                        </a>
+                        <p class="card-text text-muted mb-0" style="font-size: 14px;">@<%= tweet.user.username %></p>
+                      </div>
+                    </div>
+                    <p class="card-text mx-4 mt-3">
+                      <%- sanitizeContent(replaceUrlsWithLinks(tweet.content)) %>
+                      <% if (tweet.metaLink) { %>
+                        <h2>Valid URL: <%= tweet.metaLink.url %></h2>
+                        <h3>Meta Link:</h3>
+                        <p>Title: <%= tweet.metaLink.title %></p>
+                        <p>Description: <%= tweet.metaLink.description %></p>
+                        <p>Image: <img src="<%= tweet.metaLink.image %>"></p>
+                      <% } %>                  
+                    </p>
+                    <% if (tweet.image) { %>
+                      <div class="image-overlay mt-1" style="cursor: pointer;">
+                        <img class="rounded image" alt="Image" style="width: 443px; height: 200px; overflow: hidden; border-radius: 20px; object-fit: contain; object-position: center;" src="/images/<%= tweet.image.filename %>" data-bs-toggle="modal" data-bs-target="#<%= tweet.user.username %><%= tweet.image.filename %>">
+                        <div class="overlay mt-4 mx-2" onclick="toggleImageBlur(this)">
+                          <i class="fa-solid fa-eye mx-2 mt-2"></i>
+                        </div>
+                      </div>
+                      <div class="modal fade" id="<%= tweet.user.username %><%= tweet.image.filename %>" tabindex="-1" aria-labelledby="<%= tweet.user.username %><%= tweet.image.filename %>" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                          <div class="modal-content">
+                            <img class="img-fluid" style="max-width: 100%; max-height: 600px; object-fit: contain;" src="/images/<%= tweet.image.filename %>" alt="Image">
+                          </div>
+                        </div>
+                      </div>
+                    <% } %>
+                    <div class="card-footer">
+                      <% if (tweet.timestamp) { %>
+                        <p class="card-text"><small class="text-muted">Sent at <%= tweet.timestamp.toLocaleString() %></small></p>
+                      <% } %>
+                      <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3">
+                        <div class="col">
+                          <% if (likedTweets.some(liked => liked._id.equals(tweet._id))) { %>
+                            <form method="POST" action="/tweets/<%= tweet._id %>/unlike">
+                              <button class="card-link btn border-0 bg-dark2" type="submit"><i class="fa-solid fa-heart"></i> <%= tweet.likes.length %></button>
+                            </form>
+                          <% } else { %>
+                            <form method="POST" action="/tweets/<%= tweet._id %>/like">
+                              <button class="card-link btn border-0 bg-dark2" type="submit"><i class="far fa-heart"></i> <%= tweet.likes.length %></button>
+                            </form>
+                          <% } %>
+                        </div>
+                        <div class="col">
+                          <% if (tweet.user.username === authusername) { %>
+                            <form action="/post/delete/<%= tweet._id %>?_method=DELETE" method="POST">
+                              <button type="submit" class="btn bg-dark2 border-0"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                          <% } %>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p>No tweets found.</p>
+            <% } %>
+          </div>
+          <!--Liked Tweets :/ better not be nasty-->
+          <div id="likesContainer" style="display: none;">
+            <% if (likedTweets.length === 0) { %>
+              <p>No liked tweets available. - [ BROKEN ]</p>
+            <% } else { %>
+              <ul>
+                <% likedTweets.forEach(tweet => { %>
+                  <li>
+                    <strong><%= tweet.user.username %></strong> liked:
+                    <%- sanitizeContent(replaceUrlsWithLinks(tweet.content)) %> 
+                                   </li>
+                <% }); %>
+              </ul>
+            <% } %>
+        </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <%- include('partials/rightsidebar'); -%>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Function to show the images
+    function showImages() {
+      var imagesContainer = document.getElementById("imagesContainer");
+      var postsContainer = document.getElementById("postsContainer");
+      var likesContainer = document.getElementById("likesContainer");
+      var activeButton = document.getElementById("showImagesButton");
+  
+      likesContainer.style.display = "none";
+      imagesContainer.style.display = "block";
+      postsContainer.style.display = "none";
+  
+      setActiveButton(activeButton);
+    }
+  
+    // Function to show the tweets
+    function showPosts() {
+      var imagesContainer = document.getElementById("imagesContainer");
+      var postsContainer = document.getElementById("postsContainer");
+      var likesContainer = document.getElementById("likesContainer");
+      var activeButton = document.getElementById("showTweetsButton");
+  
+      likesContainer.style.display = "none";
+      imagesContainer.style.display = "none";
+      postsContainer.style.display = "block";
+  
+      setActiveButton(activeButton);
+    }
+  
+    // Function to show the likes
+    function showLikes() {
+      var imagesContainer = document.getElementById("imagesContainer");
+      var postsContainer = document.getElementById("postsContainer");
+      var likesContainer = document.getElementById("likesContainer");
+      var activeButton = document.getElementById("likeImagesButton");
+  
+      likesContainer.style.display = "block";
+      imagesContainer.style.display = "none";
+      postsContainer.style.display = "none";
+  
+      setActiveButton(activeButton);
+    }
+  
+    // Function to set the active button
+    function setActiveButton(button) {
+      var buttons = document.getElementsByClassName("actin");
+  
+      // Remove the active class from all buttons
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.color = "#c5c4c4"; // Change the color to your desired default color
+      }
+  
+      // Set the background color of the selected button
+      button.style.color = "white"; // Change the color to your desired active color
+    }
+  
+    // Set the default active button to "showPosts"
+    window.onload = function() {
+      var defaultButton = document.getElementById("showTweetsButton");
+      showPosts(); // Show the "showPosts" tab by default
+      setActiveButton(defaultButton);
+    };
+  </script>
+  <!-- Urls EJS -->
+  <% function replaceUrlsWithLinks(content) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const replacedContent = content.replace(urlRegex, '<a href="$&" target="_blank">$&</a>');
+    return replacedContent;
+  } %>
+  
+  <% function sanitizeContent(content) {
+    const allowedTags = ['a'];
+    const sanitizedContent = content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, (match, tag) => {
+      return allowedTags.includes(tag.toLowerCase()) ? match : '';
+    });
+    return sanitizedContent;
+  } %>
+</body>
+</html>

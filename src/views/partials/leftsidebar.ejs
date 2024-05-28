@@ -1,0 +1,258 @@
+<div class="col-md-3">
+    <div class="card mb-4 left-sidebar border-0" style="background-color: transparent; color: white;">
+      <div class="card-body d-flex flex-column">
+        <div class="row mt-3">
+          <form action="/search" method="get" class="mb-2" role="search">
+            <div class="form-group has-search">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input type="text" name="q" id="searchInput" class="form-control shadow-none" placeholder="Search">
+            </div>
+            <div id="searchResultsContainer" class="shadow search-results-container container animate slideIn mt-3 rounded-3 list-group" style="background-color: #202334;">
+              <div id="searchResults"></div> <!-- Added a div to hold the search results -->
+            </div>
+          </form>
+
+<a href="/home" class="homelinks <% if (currentPath === '/home') { %>text-white currentPathhomelinks<% } %>"><i class="bi bi-house me-2 homebisize"></i>Home</a>
+  <a href="/notifications" class="homelinks <% if (currentPath === '/notifications') { %>text-white currentPathhomelinks<% } %>"><i class="bi bi-bell me-2 homebisize"></i>Notifications
+    <span class="p-1 rounded-2 text-white"
+style="background:#474d70; font-size:13px;"><span>9+</span></span>
+  </a>
+  <a href="../p/<%= authusername %>" class="homelinks <% if (currentPath === '/p/' + authusername) { %>text-white currentPathhomelinks<% } %>"><i class="bi bi-person me-2 homebisize"></i>Profile</a>
+
+  <script>
+    // Get the current path
+    var currentPath = window.location.pathname;
+  </script>
+ 
+
+        </div>
+        
+        <div class="flex-grow-2"></div>
+        <button type="button" class="d-flex align-items-center deletethisbutton justify-content-center footer btn bg-dark1 border-0 postcreate" data-bs-toggle="modal" data-bs-target="#post">
+            Create Post
+          </button>
+        <hr class="deletethishr">
+        <script>
+        // Wait for the DOM to load
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if the current path is "/home"
+  if (window.location.pathname === '/home') {
+    // Find the button element with the specified class
+    var button = document.querySelector('.deletethisbutton');
+    if (button && button.parentNode) {
+      // Remove the button element
+      button.parentNode.removeChild(button);
+    }
+
+    // Find the <hr> element with the specified class
+    var hr = document.querySelector('.deletethishr');
+    if (hr && hr.parentNode) {
+      // Remove the <hr> element
+      hr.parentNode.removeChild(hr);
+    }
+
+    // Find the <div> element with the specified class
+    var div = document.querySelector('.deletethisbutton');
+    if (div && div.parentNode) {
+      // Remove the <div> element
+      div.parentNode.removeChild(div);
+    }
+  }
+});
+
+        </script>
+        
+        
+        <div class="btn-group dropup">
+          <button type="button" class="d-flex align-items-center justify-content-center footer btn dropdown-toggle bg-dark1 border-0" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="mx-1">
+              <% if (authpfp) { %>
+                <img src="data:image/png;base64,<%= authpfp %>" alt="<%= authusername %> | icon" style="border-style: solid; border-color: #30344d;" width="24" height="24" class="rounded-5">
+                <% } else { %>
+                  <img style="display: none;">
+                <% } %>
+                <%= authusername %>
+            </div>
+        </button>
+        
+          
+            <ul class="dropdown-menu mb-2 animate slideIn text-white bg-dark1" style="width: 100%; color: white;">
+                <li><a class="dropdown-item links" href="#">Action</a></li>
+                <li><a class="dropdown-item links" href="#">Another action</a></li>
+                <li><a class="dropdown-item links" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal"><i class="fa-solid fa-gear"></i> Account Settings</a></li>
+                <li><hr class="dropdown-divider" style="color: #999;"></li>
+                <li><a class="dropdown-item links" href="../logout" style="color: #e74c3c;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+              </ul>
+              
+          </div>
+         <script>
+            async function detectAdBlock() {
+  let adBlockEnabled = false
+  const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+  try {
+    await fetch(new Request(googleAdUrl)).catch(_ => adBlockEnabled = true)
+  } catch (e) {
+    adBlockEnabled = true
+  } finally {
+    console.log(`AdBlock Enabled: ${adBlockEnabled}`)
+  }
+}
+detectAdBlock()
+         </script>
+          <div class="modal fade deletethisbutton" id="post" tabindex="-1" aria-labelledby="post" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered deletethisbutton">
+              <div class="modal-content bg-dark1">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="post">Create Post</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="tweetForm" action="/tweet" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="image">Upload Image:</label>
+                      <input class="" type="file" name="image" id="image">
+                    </div>
+                    <div class="form-group">
+                      <label for="content">Enter your post:</label>
+                      <textarea class="form-control" name="content" rows="3" placeholder="Write your tweet"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn bg-dark2" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" form="tweetForm" class="btn bg-dark2 border-0">Post</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+              <div class="modal-content bg-dark">
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="card mb-4 left-sidebar border-0" style="background-color: transparent; color: white;">
+                        <div class="card-body d-flex flex-column">
+                          <h5 class="card-title">SocialFlux - Settings</h5>
+                          <hr>
+                          <div class="row mt-3 mx-4">
+                            <div class="row mb-2">
+                              <h6>Account</h6>
+                              <div class="mx-4">
+                                <ul class="list-unstyled">
+                                  <li><a href="#profilesettings" class="links selinks mb-2"><i class="fas fa-user-circle me-2"></i>Profile Settings</a></li>
+                                  <li><a href="#accountsettings" class="links selinks mb-2"><i class="fas fa-cog me-2"></i>Account Settings</a></li>
+                                  <li><a href="#verifyaccountsettings" class="links selinks mb-2"><i class="fas fa-check-circle me-2"></i>Verify Account</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row mb-2">
+                              <h6><i class="fas fa-shield-alt me-2"></i>Security</h6>
+                              <div class="mx-4">
+                                <ul class="list-unstyled">
+                                  <li><a href="#twoauthentication" class="links mb-2"><i class="fas fa-lock me-2"></i>Two-factor Authentication</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1"></div>
+                          <hr>
+                          <div class="btn-group dropup">
+                            <button type="button" class="d-flex align-items-center justify-content-center footer btn bg-dark1 border-0" data-bs-dismiss="modal">
+                              <div class="mx-1">
+                                Close Settings
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-9">
+                      <div id="profilesettings" class="settings-section" style="display: block;">
+                        <div class="rounded-2 bg-dark1">
+                          <div class="shadow bg-dark1 bg-body-tertiary content-title text-white mb-2 sticky-top" style="border-top-left-radius: 4px; border-top-right-radius: 4px; position: sticky; top: 0; padding: 9px; width: 100%; left: 0; right: 0; z-index: 1;">
+                            <h5 style="margin: 0;" class="mx-3"><i class="fas fa-home me-2"></i>Home</h5>
+                          </div>
+                          <div class="p-4 content" style="max-height: 90vh; overflow-y: auto;">
+                            <% if (successMessage) { %>
+                            <p class="alert alert-success"><%= successMessage %></p>
+                            <% } %>
+          
+                            <% if (errorMessage) { %>
+                            <p class="alert alert-danger"><%= errorMessage %></p>
+                            <% } %>
+          
+                            <form action="/user/settings" id="settingsForm" method="POST" enctype="multipart/form-data">
+                              <div class="mb-3">
+                                <label for="displayName" class="form-label">Display Name:</label>
+                                <input type="text" class="form-control" id="displayName" name="displayName" value="<%= user.displayName %>">
+                              </div>
+                              <div class="mb-3">
+                                <label for="bio" class="form-label">Bio:</label>
+                                <input type="text" class="form-control" id="bio" name="bio" value="<%= user.bio %>">
+                              </div>
+                              <div class="mb-3">
+                                <label for="pfp" class="form-label">Profile Picture:</label>
+                                <input type="file" class="form-control" id="pfp" name="pfp">
+                              </div>
+                              <div class="mb-3">
+                                <label for="banner" class="form-label">Banner Image:</label>
+                                <input type="file" class="form-control" id="banner" name="banner">
+                              </div>
+                              <button type="submit" form="settingsForm" class="btn btn-primary"><i class="fas fa-save me-2"></i>Save</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="accountsettings" class="settings-section" style="display: none;">
+                        <!-- Add account settings content here -->
+                      </div>
+                      <div id="verifyaccountsettings" class="settings-section" style="display: none;">
+                        <!-- Add verify account settings content here -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+          
+          <script>
+            // Function to switch between sections
+            function switchSection(sectionId) {
+              // Hide all sections
+              var sections = document.getElementsByClassName("settings-section");
+              for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = "none";
+              }
+          
+              // Show the selected section
+              var selectedSection = document.getElementById(sectionId);
+              if (selectedSection) {
+                selectedSection.style.display = "block";
+              }
+            }
+          
+            // Event listener for page load
+            document.addEventListener("DOMContentLoaded", function() {
+              // Show the profile settings section by default
+              switchSection("profilesettings");
+          
+              var links = document.getElementsByClassName("selinks");
+              for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener("click", function(event) {
+                  var sectionId = this.getAttribute("href").substring(1);
+                  switchSection(sectionId);
+                  event.preventDefault();
+                });
+              }
+            });
+          </script>
+          
+          
+      </div>
+    </div>
+  </div>

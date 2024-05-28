@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dev/app.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dev/**"]
+      }
+    },
+    {
+      "src": "node_modules",
+      "use": "@vercel/static",
+      "config": {
+        "includeFiles": ["node_modules/**"]
+      }
+    }
+  ],
+  "routes": [
+    { "src": "dev/app.js", "dest": "dev/app.js" },
+    { "src": "/(.*)", "dest": "dev/app.js" },
+    { "src": "/node_modules", "dest": "/node_modules/**" }
+  ]
+}

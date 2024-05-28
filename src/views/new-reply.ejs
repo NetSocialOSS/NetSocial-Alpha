@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>New Reply</title>
+</head>
+<body>
+  <h1>New Reply</h1>
+
+  <div>
+    <p>Replying to tweet: <%= tweet.content %></p>
+    <% if (reply) { %>
+      <p>Replying to reply: <%= reply.content %></p>
+    <% } %>
+  </div>
+  
+  <% if (nestedReplies.length > 0) { %>
+    <h2>Nested Replies:</h2>
+    <ul>
+      <% nestedReplies.forEach((nestedReply) => { %>
+        <li><%= nestedReply.content %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
+  <form action="/tweets/<%= tweet._id %>/replies" method="POST">
+    <textarea name="content" placeholder="Write your reply"></textarea>
+    <button type="submit">Reply</button>
+  </form>
+  
+
+  <a href="/tweets/<%= tweet._id %>/replies">Back to Replies</a>
+</body>
+</html>

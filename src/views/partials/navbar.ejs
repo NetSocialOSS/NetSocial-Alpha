@@ -1,0 +1,93 @@
+<nav class="mt-2 navbar sticky-top navbar-expand-lg navbar-custom" >
+    <div class="container-md mt-2">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand logoholder d-flex align-items-center" href="/">
+        <div class="logo-wrapper me-3"></div>
+        <div class="brand-text text-white flex-grow-1">
+           <span class="bg-dark1 p-1 rounded-3" style="color: #dad9d9; font-size: 14px;">BETA</span> SocialFlux
+        </div>
+      </a>
+      <div class="offcanvas offcanvas-end border-0 txb-box" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+          <button type="button" class="btn-close text-white" style="color: white;" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="vr d-none d-md-flex" style="color: #999; height: 40px;"></div>
+          <div class="nav justify-content-end">
+            <a class="nav-link" href="/support">Support</a>
+            <a class="nav-link" href="/partners">Partners</a>
+            <div class="dropdown-center">
+              <a class="btn nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                More
+              </a>
+              <ul style="color: white;" class="txb animate slideIn dropdown-menu shadow-lg p-6 border-0 dropdown-menu-center">
+                <li><a style="color: white; cursor: pointer;" class="dropdown-item txb" data-bs-toggle="modal" data-bs-target="#dmcaModal"><i class="fad fa-copyright"></i> DMCA Notice</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <% if (authusername) { %>
+        <span style="color: white;">
+          <div class="dropdown-center bg-dark1 rounded-2" style="color: white;">
+            <a class="btn shadow-none" style="border:none !important;color: white;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span  style="font-size: 17px;"><%= authusername %></span>
+              <img src="data:image/png;base64,<%= authpfp ? authpfp : 'https://discordinflux.xyz/assets/brands/image_k7x1vs.png' %>" class="rounded-circle" width="40" height="40" alt="@<%= authusername %>" style="background-color: #111; color: white !important;">
+            </a>
+            <ul style="color: white !important;" class="dropdown-menu animate slideIn slideout shadow-lg p-6 txb-box text-white border-0 dropdown-menu-center mt-3">
+              <li><a class="dropdown-item" style="color: white;" href="/dashboard"><i class="fad fa-tachometer-alt mr-2"></i> Dashboard</a></li>
+                <li><a class="dropdown-item" style="color: white;" href="/logout"><i class="fad fa-sign-out mr-2"></i> Logout</a></li>
+              </ul>
+            </div>
+          </span>
+        <% } else { %>
+            <a href="#" onclick="openAuthPopup()" class="btn mx-1 txb"><i class="fad fa-sign-in-alt"></i> Login</a>
+        <% } %>
+  
+        <style>
+          .navbar-custom .nav-link {
+            color: #fff;
+          }
+  
+          .btn:focus,
+          .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+          }
+  
+          .navbar {
+            color: white;
+          }
+        </style>
+        
+      </div>
+    </nav>
+    <div class="modal fade" id="dmcaModal" tabindex="-1" aria-labelledby="dmcaModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered rounded-3">
+        <div class="modal-content text-white" style="background-color: #111;">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="dmcaModalLabel">DMCA Notice</h5>
+          </div>
+          <div id="error-message"></div>
+          <div class="modal-body">
+            <p>This website is protected by the <a target="_blank" href="https://www.dmca.com/compliance/discordinflux.xyz" class="text-info">DMCA</a>. We have all rights to take legal action against your website if it copies ours.</p>
+            <div class="mb-3 text-center">
+              <a target="_blank" href="//www.dmca.com/Protection/Status.aspx?ID=4375b5f3-ae1f-4c63-8104-068ccfe0d728" title="DMCA.com Protection Status" class="dmca-badge">
+                <img src="https://images.dmca.com/Badges/dmca-badge-w250-5x1-08.png?ID=4375b5f3-ae1f-4c63-8104-068ccfe0d728" alt="DMCA.com Protection Status" />
+              </a>
+              <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
+            </div>
+          </div>
+          <hr class="rounded-3" style="margin: auto; width:80%; height: 10px; background-color: #000; border: none;">
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

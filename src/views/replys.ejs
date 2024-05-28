@@ -1,0 +1,41 @@
+<h1>Replies to Tweet</h1>
+
+<!-- Display the tweet content -->
+<div class="tweet">
+  <h2><%= tweet.content %></h2>
+  <p>By <%= tweet.user.displayName %></p>
+</div>
+
+<!-- Display the top-level replies -->
+<div class="replies">
+  <% if (replies.length > 0) { %>
+    <% replies.forEach(reply => { %>
+      <div class="reply">
+        <h3><%= reply.user.displayName %></h3>
+        <p><%= reply.content %></p>
+        <a href="/tweets/<%= tweetId %>/replies/new?parentReplyId=<%= reply._id %>">Reply</a>
+        
+        <!-- Display the nested replies -->
+        <% if (reply.replies.length > 0) { %>
+          <div class="nested-replies">
+            <% reply.replies.forEach(nestedReply => { %>
+              <div class="nested-reply">
+                <h4><%= nestedReply.user.displayName %></h4>
+                <p><%= nestedReply.content %></p>
+                <a href="/tweets/<%= tweetId %>/replies/new?parentReplyId=<%= nestedReply._id %>">Reply</a>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>No replies yet.</p>
+  <% } %>
+</div>
+
+<!-- Form to submit a new reply -->
+<form action="/tweets/<%= tweetId %>/replies" method="POST">
+  <textarea name="content" rows="4" cols="50" placeholder="Write a reply"></textarea>
+  <button type="submit">Submit</button>
+</form>

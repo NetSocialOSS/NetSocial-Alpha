@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Welcome | SocialFlux</title>
+  <%- include('partials/head'); -%>
+</head>
+<body class="bg-dark text-white">
+  <nav class="mt-2 navbar sticky-top navbar-expand-lg navbar-custom" >
+    <div class="container-md mt-2">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand logoholder d-flex align-items-center" href="/">
+        <div class="logo-wrapper me-3"></div>
+        <div class="brand-text text-white flex-grow-1">
+           <span class="bg-dark1 p-1 rounded-3" style="color: #dad9d9; font-size: 14px;">BETA</span> SocialFlux
+        </div>
+      </a>
+      <div class="offcanvas offcanvas-end border-0 txb-box" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+          <button type="button" class="btn-close text-white" style="color: white;" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="vr d-none d-md-flex" style="color: #999; height: 40px;"></div>
+          <div class="nav justify-content-end">
+            <a class="nav-link links" target="_blank" href="https://discord.gg/9kY4HGU9rA">Support</a>
+         </div>
+        </div>
+      </div>
+      
+      <a class="btn bg-dark2 border-0 mx-2" href="/register">Get Started</a>
+      <a class="btn bg-dark2 border-0" href="/login">Login</a>        <style>
+          .navbar-custom .nav-link {
+            color: #fff;
+          }
+  
+          .btn:focus,
+          .btn:active {
+            outline: none !important;
+            box-shadow: none !important;
+          }
+  
+          .navbar {
+            color: white;
+          }
+        </style>
+        
+      </div>
+    </nav>
+    <div class="modal fade" id="dmcaModal" tabindex="-1" aria-labelledby="dmcaModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered rounded-3">
+        <div class="modal-content text-white" style="background-color: #111;">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="dmcaModalLabel">DMCA Notice</h5>
+          </div>
+          <div id="error-message"></div>
+          <div class="modal-body">
+            <p>This website is protected by the <a target="_blank" href="https://www.dmca.com/compliance/discordinflux.xyz" class="text-info">DMCA</a>. We have all rights to take legal action against your website if it copies ours.</p>
+            <div class="mb-3 text-center">
+              <a target="_blank" href="//www.dmca.com/Protection/Status.aspx?ID=4375b5f3-ae1f-4c63-8104-068ccfe0d728" title="DMCA.com Protection Status" class="dmca-badge">
+                <img src="https://images.dmca.com/Badges/dmca-badge-w250-5x1-08.png?ID=4375b5f3-ae1f-4c63-8104-068ccfe0d728" alt="DMCA.com Protection Status" />
+              </a>
+              <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
+            </div>
+          </div>
+          <hr class="rounded-3" style="margin: auto; width:80%; height: 10px; background-color: #000; border: none;">
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <div class="row align-items-center justify-content-center mt-5" style="font-size: 20px;">
+        <div class="col-md-6">
+            <div class="jumbotron py-5 wes">
+                <h1 class="display-4 mb-3 text-white">SocialFlux</h1>
+                <p class="lead mb-4 tm" target="_blank" style="font-family: 'Dongle', sans-serif, font-weight: 400;">Create. Share. Reach the World: Unleash Your Posts!</p>
+                <a class="btn bg-dark2 border-0" href="/register">Get Started</a>
+                <a class="btn bg-dark2 border-0" href="/login">Login</a>
+            </div>
+        </div>
+        <div class="col-md-6 mt-5">
+          <div class="card mb-4 bg-dark1" style="border-color: #2c30446b; border-width: 2px;">
+            <div class="card-body">
+              <div class="user-info d-flex align-items-center" style="background-color: transparent;">
+                <img class="user-image rounded-circle" src="data:image/png;base64,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" alt="User Image" style="width: 50px; height: 50px;">
+                <div class="user-names mx-2">
+                  <a class="card-text text-white" href="../p/flooded" style="font-size: 17px; text-decoration: none;">
+                    Flooded
+                  </a>
+                  <p class="card-text text-muted mb-0" style="font-size: 14px;">@flooded</p>
+                </div>
+              </div>
+              <p class="card-text mx-4 mt-3">
+                reset in peace to those who died in that submarine while trying to see the Tit 🕊️                                 
+              </p>             
+              <div class="card-footer">               
+                  <p class="card-text"><small class="text-muted">Sent at 6/22/2023, 9:40:01 PM</small></p>       
+                <div class="row row-cols-2">
+                  <div class="col">
+                    <a class="btn bg-dark2 border-0" href="/login">Login To View</a>                   
+                  </div>                  
+                </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<div style="padding: 160px; font-size: 20px;">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card bg-dark1 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Users</h5>
+          <p class="card-text">undefined</p>
+          <p class="card-text">Total Users</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark1 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Posts</h5>
+          <p class="card-text">undefined</p>
+          <p class="card-text">Total Posts</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark1 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Likes</h5>
+          <p class="card-text">undefined</p>
+          <p class="card-text">Total Likes</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark1 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Comments</h5>
+          <p class="card-text">undefined</p>
+          <p class="card-text">Total Comments</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <style>
+    
+  .tm {
+    color: #ababab;
+  }
+
+  .lanbadge {
+    background-color: #191a1a4f;
+    color: white;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+  </style>
+</body>
+</html>

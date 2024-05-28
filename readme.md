@@ -1,11 +1,11 @@
-# DesTools Studio - SocialFlux
+# NetSocialOSS - SocialFlux
 
-Welcome to the DesTools Studio - SocialFlux repository! SocialFlux is a social media platform developed by DesTools Studio. This README provides information on how to run the dev mode server, main server, and includes links to important resources.
+Welcome to the NetSocialOSS - SocialFlux ALPHA repository! SocialFlux is a social media platform developed by DesTools Studio. This README provides information on how to run the dev mode server, main server, and includes links to important resources.
 
 ## Links
 
-- [Main Page](https://socialflux.xyz/): Visit the main page of SocialFlux to explore the platform and its features.
-- [Developer Page](https://socialflux.xyz/developer/): Access the developer page for SocialFlux to get detailed information on APIs, developer tools, and resources.
+- [Main Page](https://netsocial.app/): Visit the main page of SocialFlux to explore the platform and its features.
+- [Developer Page](https:///netsocial.app/developer/): Access the developer page for SocialFlux to get detailed information on APIs, developer tools, and resources.
 
 ## How to Run the Dev Mode Server
 
@@ -29,9 +29,9 @@ The main server will now start running. This is the production server that serve
 
 ## SocialFlux Documentation
 
-- [API Docs](https://api.socialflux.xyz/): Explore the API documentation for SocialFlux, which provides details on available endpoints, parameters, and response formats.
-- [Developer Docs](https://docs.socialflux.xyz/): Access the comprehensive developer documentation for SocialFlux, containing guides, tutorials, and other helpful resources for developers.
+- [API Docs](https://api./netsocial.app/): Explore the API documentation for SocialFlux, which provides details on available endpoints, parameters, and response formats.
+- [Developer Docs](https://docs./netsocial.app/): Access the comprehensive developer documentation for SocialFlux, containing guides, tutorials, and other helpful resources for developers.
 
-![SocialFlux Logo](https://mediashare.ink/file/1686612147288.png)
+![SocialFlux Logo](https://cdn.netsocial.app/images/webp/socialflux.webp)
 
 Feel free to use the logo above when referencing SocialFlux.
